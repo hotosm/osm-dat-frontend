@@ -31,7 +31,7 @@ class About extends Component {
         </article>
         <article>
           <h2>What&apos;s more</h2>
-          <p><b>Explore data by mapper experience:</b> Alternatively to the mapping activity over time (recency of edits) view, one can also investigate the data from a <i>editor level of experience</i> point of view: The graph then displays how large the proportion of the objects is that have been contributed by begginners, intermediate level mappers or experienced users.</p>
+          <p><b>Explore data by mapper experience:</b> Alternatively to the mapping activity over time (recency of edits) view, one can also investigate the data from a <i>editor level of experience</i> point of view: The graph then displays how large the proportion of the objects is that have been contributed by beginners, intermediate level mappers or experienced users.</p>
           <p><b>Hot Projects:</b> Know which <a className="link" href="http://tasks.hotosm.org/">projects</a> of the <a className="link" href="hotosm.org">Humanitarian OpenStreetMap Team</a> influenced the development of the mapping of a region.</p>
         </article>
         <article>
