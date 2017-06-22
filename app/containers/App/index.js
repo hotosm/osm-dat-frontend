@@ -1,4 +1,7 @@
 import React, { Component } from 'react'
+import { connect } from 'react-redux'
+import { bindActionCreators } from 'redux'
+import * as MapActions from '../../actions/map'
 import Header from '../../components/Header'
 import EmbedHeader from '../../components/Header/embedHeader.js'
 import Map from '../../components/Map'
@@ -13,9 +16,8 @@ class App extends Component {
   }
 
   render() {
-    const { actions, routeParams, route } = this.props
-    const isEmbed = routeParams.embed === 'embed';
-    const header = (isEmbed) ? <EmbedHeader/> : <Header/>;
+    const { actions, routeParams, route, embed } = this.props
+    const header = (embed) ? <EmbedHeader {...actions}/> : <Header/>;
 
     if (!this.state.hotProjectsLoaded) {
       return (
@@ -34,15 +36,16 @@ class App extends Component {
           overlay={routeParams.overlay}
           times={routeParams.times}
           view={route.view}
-          isEmbed={isEmbed}
+          embed={embed}
         />
         {route.view === 'country' ? <Stats mode={routeParams.overlay}/> : ''}
-        {route.view === 'compare' && isEmbed === false ? <CompareBar times={routeParams.times}/> : ''}
+        {route.view === 'compare' && embed === false ? <CompareBar times={routeParams.times}/> : ''}
       </div>
     )
   }
 
   componentDidMount() {
+    this.props.actions.setEmbedFromUrl(this.props.routeParams.embed === 'embed')
     loadHotProjects((err) => {
       if (err) {
         console.error('unable to load hot projects data: ', err)
@@ -52,4 +55,19 @@ class App extends Component {
   }
 }
 
-export default App
+function mapStateToProps(state) {
+  return {
+    embed: state.map.embed
+  }
+}
+
+function mapDispatchToProps(dispatch) {
+  return {
+    actions: bindActionCreators(MapActions, dispatch)
+  }
+}
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(App)

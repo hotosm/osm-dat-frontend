@@ -128,6 +128,11 @@ export default handleActions({
     return Object.assign({}, state, {
       hotOverlay: false
     })
+  },
+  'set embed from url' (state, action) {
+    return Object.assign({}, state, {
+      embed: action.payload
+    })
   }
 }, initialState)
 

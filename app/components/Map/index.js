@@ -27,8 +27,8 @@ class Map extends Component {
   state = {}
 
   render() {
-    const { view, actions, isEmbed } = this.props
-    const containerClassName = (isEmbed === false) ? `${view}View` : '';
+    const { view, actions, embed } = this.props
+    const containerClassName = (embed === false) ? `${view}View` : '';
     return (
       <div className={containerClassName}>
         <div id="map">
@@ -39,7 +39,7 @@ class Map extends Component {
           : ''
         }
 
-        {isEmbed === false && <div>
+        {embed === false && <div>
           <SearchBox className="searchbox" selectedRegion={this.props.map.region} {...actions}/>
           <span className="search-alternative">or</span>
           <button className="outline" onClick={::this.setViewportRegion}>Outline Custom Area</button>
@@ -152,7 +152,7 @@ class Map extends Component {
     }
     // check for changed map parameters
     if (nextProps.map.region !== this.props.map.region) {
-      this.mapSetRegion(nextProps.map.region, nextProps.isEmbed === false)
+      this.mapSetRegion(nextProps.map.region, nextProps.embed === false)
     }
     if (nextProps.map.filters.join() !== this.props.map.filters.join()) { // todo: handle this in reducer?
       glLayer.setStyle(glStyles(nextProps.map.filters, {
