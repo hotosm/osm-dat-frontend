@@ -34,9 +34,10 @@ class App extends Component {
           overlay={routeParams.overlay}
           times={routeParams.times}
           view={route.view}
+          isEmbed={isEmbed}
         />
         {route.view === 'country' ? <Stats mode={routeParams.overlay}/> : ''}
-        {route.view === 'compare' ? <CompareBar times={routeParams.times}/> : ''}
+        {route.view === 'compare' && isEmbed === false ? <CompareBar times={routeParams.times}/> : ''}
       </div>
     )
   }

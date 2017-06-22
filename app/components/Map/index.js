@@ -27,9 +27,10 @@ class Map extends Component {
   state = {}
 
   render() {
-    const { view, actions } = this.props
+    const { view, actions, isEmbed } = this.props
+    const containerClassName = (isEmbed === false) ? `${view}View` : '';
     return (
-      <div className={view+'View'}>
+      <div className={containerClassName}>
         <div id="map">
         </div>
         <HotOverlay enabled={this.props.map.hotOverlay} leaflet={map} />
@@ -37,10 +38,13 @@ class Map extends Component {
           ? <Swiper onMoved={::this.swiperMoved}/>
           : ''
         }
-        <SearchBox className="searchbox" selectedRegion={this.props.map.region} {...actions}/>
-        <span className="search-alternative">or</span>
-        <button className="outline" onClick={::this.setViewportRegion}>Outline Custom Area</button>
-        <FilterButton enabledFilters={this.props.map.filters} {...actions}/>
+
+        {isEmbed === false && <div>
+          <SearchBox className="searchbox" selectedRegion={this.props.map.region} {...actions}/>
+          <span className="search-alternative">or</span>
+          <button className="outline" onClick={::this.setViewportRegion}>Outline Custom Area</button>
+          <FilterButton enabledFilters={this.props.map.filters} {...actions}/>
+        </div>}
 
         <Legend
           featureType={this.props.map.filters[0]}
