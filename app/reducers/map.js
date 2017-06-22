@@ -1,3 +1,4 @@
+/* eslint indent: "off" */
 import { handleActions } from 'redux-actions'
 import { createHashHistory } from 'history'
 import polyline from 'polyline'
