@@ -16,7 +16,7 @@ var routes = (
   <Route>
     <Route name='landing page' path='/about' component={AboutPage}/>
     <Route name='country view' path='/show/:region(/:filters(/:overlay))' view='country' component={App}/>
-    <Route name='compare view' path='/compare/:region(/:times(/:filters))' view='compare' component={App}/>
+    <Route name='compare view' path='/compare/:region(/:times(/:filters(/:embed)))' view='compare' component={App}/>
     <Route name='default view' path='/' view='default' component={App}/>
   </Route>
 );

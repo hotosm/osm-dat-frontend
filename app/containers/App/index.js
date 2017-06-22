@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import Header from '../../components/Header'
+import EmbedHeader from '../../components/Header/embedHeader.js'
 import Map from '../../components/Map'
 import Stats from '../../components/Stats'
 import CompareBar from '../../components/CompareBar'
@@ -13,17 +14,20 @@ class App extends Component {
 
   render() {
     const { actions, routeParams, route } = this.props
+    const isEmbed = routeParams.embed === 'embed';
+    const header = (isEmbed) ? <EmbedHeader/> : <Header/>;
+
     if (!this.state.hotProjectsLoaded) {
       return (
         <div className="main">
-          <Header/>
+          {header}
         </div>
       )
       return <p style="text-align:center;">Loading…</p>
     }
     return (
       <div className="main">
-        <Header/>
+        {header}
         <Map
           region={routeParams.region}
           filters={routeParams.filters}
