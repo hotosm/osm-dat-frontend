@@ -14,6 +14,7 @@ export function load(callback) {
   if (hotprojects !== null) {
     return callback(null)
   }
+
   request
   .get('https://s3.amazonaws.com/tm-projects-vt/hotprojects.geojson')
   .end(function(err, res) {
