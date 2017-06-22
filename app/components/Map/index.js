@@ -152,7 +152,7 @@ class Map extends Component {
     }
     // check for changed map parameters
     if (nextProps.map.region !== this.props.map.region) {
-      this.mapSetRegion(nextProps.map.region)
+      this.mapSetRegion(nextProps.map.region, nextProps.isEmbed === false)
     }
     if (nextProps.map.filters.join() !== this.props.map.filters.join()) { // todo: handle this in reducer?
       glLayer.setStyle(glStyles(nextProps.map.filters, {
@@ -223,7 +223,7 @@ class Map extends Component {
     })
   }
 
-  mapSetRegion(region) {
+  mapSetRegion(region, isEditable) {
     if (boundsLayer !== null) {
       map.removeLayer(boundsLayer)
     }
@@ -235,7 +235,10 @@ class Map extends Component {
       color: 'gray',
       interactive: false
     }).addTo(map)
-    boundsLayer.enableEdit()
+
+    if (isEditable) {
+      boundsLayer.enableEdit()
+    }
 
     // set map view to region
     try { // geometry calculcation are a bit hairy for invalid geometries (which may happen during polygon editing)
