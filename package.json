@@ -4,9 +4,10 @@
   "description": "OSM data analysis toll, user interface",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "npm run lint",
     "start": "webpack-dev-server -d --history-api-fallback --hot --inline --progress --colors --port 3000",
-    "build": "NODE_ENV=production webpack --progress --colors"
+    "build": "NODE_ENV=production webpack --progress --colors",
+    "lint": "eslint -c .eslintrc.js --ext .jsx,.js app"
   },
   "license": "BSD-3-Clause",
   "devDependencies": {
@@ -20,6 +21,8 @@
     "classnames": "^2.2.3",
     "css-loader": "^0.23.1",
     "d3-queue": "^2.0.3",
+    "eslint": "^4.0.0",
+    "eslint-plugin-react": "^7.1.0",
     "extract-text-webpack-plugin": "^1.0.1",
     "file-loader": "^0.8.5",
     "fuse.js": "^2.2.0",

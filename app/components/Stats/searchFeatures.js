@@ -129,6 +129,8 @@ function getArrayBuffer(url, callback) {
   // todo: global?
   request.parse['application/x-protobuf'] = obj => obj
   request.parse['application/octet-stream'] = obj => obj
+
+  /* eslint-disable indent */
   request.get(url)
   .on('request', function () {
     // todo: needed?
@@ -145,6 +147,7 @@ function getArrayBuffer(url, callback) {
       callback(err || new Error(res.status))
     }
   });
+  /* eslint-enable indent */
 };
 
 export default fetch

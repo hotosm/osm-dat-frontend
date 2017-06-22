@@ -1,3 +1,5 @@
+/* eslint quotes: "off" */
+
 import buildings from './buildings.json'
 import highways from './highways.json'
 import waterways from './waterways.json'
