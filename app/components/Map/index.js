@@ -152,7 +152,7 @@ class Map extends Component {
     }
     // check for changed map parameters
     if (nextProps.map.region !== this.props.map.region) {
-      this.mapSetRegion(nextProps.map.region, nextProps.embed === false)
+      this.mapSetRegion(nextProps.map.region, nextProps.embed === false, nextProps.embed === false)
     }
     if (nextProps.map.filters.join() !== this.props.map.filters.join()) { // todo: handle this in reducer?
       glLayer.setStyle(glStyles(nextProps.map.filters, {
@@ -223,7 +223,7 @@ class Map extends Component {
     })
   }
 
-  mapSetRegion(region, isEditable) {
+  mapSetRegion(region, isEditable, fitBoundsWithBottomPadding) {
     if (boundsLayer !== null) {
       map.removeLayer(boundsLayer)
     }
@@ -260,7 +260,7 @@ class Map extends Component {
         L.polygon(boundsLayer.getLatLngs()[1]).getBounds(), // zoom to inner ring!
       {
         paddingTopLeft: [20, 10+52],
-        paddingBottomRight: [20, 10+212]
+        paddingBottomRight: [20, 10+ ((fitBoundsWithBottomPadding) ? 212 : 52)]
       })
     } catch(e) {}
   }
