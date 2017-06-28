@@ -1,3 +1,4 @@
 static
 .module-cache
 *.log*
+node_modules
