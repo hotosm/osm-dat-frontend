@@ -27,6 +27,7 @@ class App extends Component {
       )
       return <p style="text-align:center;">Loading…</p>
     }
+
     return (
       <div className="main">
         {header}
@@ -37,6 +38,7 @@ class App extends Component {
           times={routeParams.times}
           view={route.view}
           embed={embed}
+          theme={routeParams.theme || 'default'}
         />
         {route.view === 'country' ? <Stats mode={routeParams.overlay}/> : ''}
         {route.view === 'compare' && embed === false ? <CompareBar times={routeParams.times}/> : ''}
