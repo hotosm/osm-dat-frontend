@@ -48,6 +48,7 @@ class App extends Component {
 
   componentDidMount() {
     this.props.actions.setEmbedFromUrl(this.props.routeParams.embed === 'embed')
+    this.props.actions.setThemeFromUrl(this.props.routeParams.theme)
     loadHotProjects((err) => {
       if (err) {
         console.error('unable to load hot projects data: ', err)
