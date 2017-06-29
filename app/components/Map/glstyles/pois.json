@@ -1,5 +1,6 @@
 {
   "version": 8,
+  "name": "pois",
   "sources": {
     "osm-pois-raw": {
       "type": "vector",
