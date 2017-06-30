@@ -3,26 +3,26 @@ import themeHighways from './templates/highways'
 import themePois from './templates/pois'
 import themeWaterways from './templates/waterways'
 
-const buildings = themeBuildings({
+const buildings = {
   aggregatedFill: '#FDB863',
   highlightFill: '#5CBAD8',
   outline: '#E08214'
-})
+}
 
-const highways = themeHighways({
+const highways = {
   aggregatedFill: '#9e9ac8',
   highlightFill: '#5CBAD8'
-})
+}
 
-const pois = themePois({
+const pois = {
   aggregatedFill: '#FF0000',
   highlightFill: '#5CBAD8'
-})
+}
 
-const waterways = themeWaterways({
+const waterways = {
   aggregatedFill: '#c89ab7',
   hightlightFill: '#5CBAD8'
-})
+}
 
 export default {
   swiper: {
@@ -34,8 +34,16 @@ export default {
       weight: 1
     }
   },
-  buildings,
-  highways,
-  pois,
-  waterways
+
+  styles: {
+    buildings,
+    highways,
+    pois,
+    waterways
+  },
+
+  buildings: themeBuildings(buildings),
+  highways: themeHighways(highways),
+  pois: themePois(pois),
+  waterways: themeWaterways(waterways)
 }
