@@ -3,7 +3,8 @@ import themeHighways from './templates/highways'
 import themePois from './templates/pois'
 import themeWaterways from './templates/waterways'
 
-const blue = '#1e79c6'
+const blue = '#8DCCFD'
+const UIBlue = '#1477c9'
 
 const buildings = {
   aggregatedFill: blue,
@@ -28,11 +29,11 @@ const waterways = {
 
 export default {
   swiper: {
-    backgroundColor: blue,
-    borderColor: blue,
+    backgroundColor: UIBlue,
+    borderColor: UIBlue,
     poly: {
       shape: 'polyline',
-      color: blue,
+      color: UIBlue,
       weight: 2
     }
   },
