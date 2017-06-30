@@ -1,7 +1,7 @@
-import odriTheme from './odri'
+import odriTheme from './opendri'
 import defaultTheme from './default'
 
 export default {
   default: defaultTheme,
-  ODRI: odriTheme
+  opendri: odriTheme
 }
