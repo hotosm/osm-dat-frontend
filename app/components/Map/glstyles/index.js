@@ -13,13 +13,13 @@ const applyTheme = (themeName, style) => {
   return !themes[themeName]
     ? style
     : Object.assign(style, {
-      layers: style.layers.map(layer => {
-        return Object.assign(layer, {
+      layers: style.layers.map(layer =>
+        Object.assign(layer, {
           paint: (themes[themeName][style.name]
             .filter(th => th.id === layer.id)[0] || layer)
             .paint
         })
-      })
+      )
     })
 }
 
