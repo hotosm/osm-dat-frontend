@@ -5,26 +5,26 @@ import themeWaterways from './templates/waterways'
 
 const blue = '#1e79c6'
 
-const buildings = themeBuildings({
+const buildings = {
   aggregatedFill: blue,
   highlightFill: blue,
   outline: blue
-})
+}
 
-const highways = themeHighways({
+const highways = {
   aggregatedFill: blue,
   highlightFill: blue
-})
+}
 
-const pois = themePois({
+const pois = {
   aggregatedFill: blue,
   highlightFill: blue
-})
+}
 
-const waterways = themeWaterways({
+const waterways = {
   aggregatedFill: blue,
   hightlightFill: blue
-})
+}
 
 export default {
   swiper: {
@@ -36,8 +36,16 @@ export default {
       weight: 2
     }
   },
-  buildings,
-  highways,
-  pois,
-  waterways
+
+  styles: {
+    buildings,
+    highways,
+    pois,
+    waterways
+  },
+
+  buildings: themeBuildings(buildings),
+  highways: themeHighways(highways),
+  pois: themePois(pois),
+  waterways: themeWaterways(waterways)
 }

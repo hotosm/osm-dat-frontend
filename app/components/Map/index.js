@@ -52,6 +52,7 @@ class Map extends Component {
           zoom={this.state.mapZoomLevel}
           hotOverlayEnabled={this.props.map.hotOverlay}
           showHighlighted={embed === false}
+          theme={theme}
         />
       </div>
     )

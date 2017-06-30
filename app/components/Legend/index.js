@@ -4,28 +4,51 @@ import moment from 'moment'
 import style from './style.css'
 import { filters as featureTypeOptions } from '../../settings/options'
 import settings from '../../settings/settings'
+import themes from '../../settings/themes'
 
 class Legend extends Component {
   state = {}
 
   render() {
-    const featureTypeDescription = featureTypeOptions.find(f => f.id === this.props.featureType).description
-    const { showHighlighted }  = this.props
+    const { showHighlighted, featureType, theme }  = this.props
+    const featureTypeDescription = featureTypeOptions.find(f => f.id === featureType).description
+    const { aggregatedFill, hightlightFill } = themes[theme]['styles'][featureType]
+
+    const aggregatedStyle = { backgroundColor: aggregatedFill, borderColor: aggregatedFill }
+    const highligthStyle =  { backgroundColor: hightlightFill, borderColor: aggregatedFill }
 
     var legendEntries = []
     if (this.props.zoom > 13) {
-      legendEntries.push(<li><span className={'legend-icon feature '+this.props.featureType}></span>{featureTypeDescription}</li>)
+      legendEntries.push(<li>
+        <span
+          style={aggregatedStyle}
+          className={'legend-icon feature '+featureType} />
+        {featureTypeDescription}
+        </li>)
       if (showHighlighted === true) {
-        legendEntries.push(<li><span className={'legend-icon feature highlight '+this.props.featureType}></span>Highlighted {featureTypeDescription.toLowerCase()}</li>)
+        legendEntries.push(<li>
+          <span
+            style={highligthStyle}
+            className={'legend-icon feature highlight '+featureType}></span>
+          Highlighted {featureTypeDescription.toLowerCase()}
+        </li>)
       }
     } else {
       legendEntries.push(
-        <li><span className={'legend-icon high '+this.props.featureType}></span>High density of {featureTypeDescription.toLowerCase()}</li>,
-        <li><span className={'legend-icon mid '+this.props.featureType}></span>Medium density of {featureTypeDescription.toLowerCase()}</li>,
-        <li><span className={'legend-icon low '+this.props.featureType}></span>Low density of {featureTypeDescription.toLowerCase()}</li>
+        <li>
+          <span style={aggregatedStyle} className={'legend-icon high '+featureType}></span>
+          High density of {featureTypeDescription.toLowerCase()}</li>,
+        <li>
+          <span style={aggregatedStyle} className={'legend-icon mid '+featureType}></span>
+          Medium density of {featureTypeDescription.toLowerCase()}</li>,
+        <li>
+          <span style={aggregatedStyle} className={'legend-icon low '+featureType}></span>
+          Low density of {featureTypeDescription.toLowerCase()}</li>
       )
       if (showHighlighted === true) {
-        legendEntries.push(<li><span className={'legend-icon highlight '+this.props.featureType}></span>Area with mostly highlighted {featureTypeDescription.toLowerCase()}</li>)
+        legendEntries.push(<li>
+          <span style={highligthStyle} className={'legend-icon highlight '+featureType}></span>
+          Area with mostly highlighted {featureTypeDescription.toLowerCase()}</li>)
       }
     }
     if (this.props.hotOverlayEnabled) {
