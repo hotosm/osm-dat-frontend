@@ -1,5 +1,6 @@
 {
   "version": 8,
+  "name": "waterways",
   "sources": {
     "osm-waterways-raw": {
       "type": "vector",

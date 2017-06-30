@@ -27,6 +27,7 @@ class App extends Component {
       )
       return <p style="text-align:center;">Loading…</p>
     }
+
     return (
       <div className="main">
         {header}
@@ -37,6 +38,7 @@ class App extends Component {
           times={routeParams.times}
           view={route.view}
           embed={embed}
+          theme={routeParams.theme || 'default'}
         />
         {route.view === 'country' ? <Stats mode={routeParams.overlay}/> : ''}
         {route.view === 'compare' && embed === false ? <CompareBar times={routeParams.times}/> : ''}
@@ -46,6 +48,7 @@ class App extends Component {
 
   componentDidMount() {
     this.props.actions.setEmbedFromUrl(this.props.routeParams.embed === 'embed')
+    this.props.actions.setThemeFromUrl(this.props.routeParams.theme)
     loadHotProjects((err) => {
       if (err) {
         console.error('unable to load hot projects data: ', err)
