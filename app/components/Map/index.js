@@ -12,6 +12,7 @@ import * as MapActions from '../../actions/map'
 import { bboxPolygon, area, erase } from 'turf'
 import { debounce } from 'lodash'
 import regionToCoords from './regionToCoords'
+import themes from '../../settings/themes'
 
 // leaflet plugins
 import * as _leafletmapboxgljs from '../../libs/leaflet-mapbox-gl.js'
@@ -27,35 +28,43 @@ class Map extends Component {
   state = {}
 
   render() {
-    const { view, actions } = this.props
+    const { view, actions, embed, theme } = this.props
+    const containerClassName = (embed === false) ? `${view}View` : '';
     return (
-      <div className={view+'View'}>
+      <div className={containerClassName}>
         <div id="map">
         </div>
         <HotOverlay enabled={this.props.map.hotOverlay} leaflet={map} />
         {this.props.map.view === 'compare'
-          ? <Swiper onMoved={::this.swiperMoved}/>
+          ? <Swiper onMoved={::this.swiperMoved} theme={themes[theme]} />
           : ''
         }
-        <SearchBox className="searchbox" selectedRegion={this.props.map.region} {...actions}/>
-        <span className="search-alternative">or</span>
-        <button className="outline" onClick={::this.setViewportRegion}>Outline Custom Area</button>
-        <FilterButton enabledFilters={this.props.map.filters} {...actions}/>
+
+        {embed === false && <div>
+          <SearchBox className="searchbox" selectedRegion={this.props.map.region} {...actions}/>
+          <span className="search-alternative">or</span>
+          <button className="outline" onClick={::this.setViewportRegion}>Outline Custom Area</button>
+          <FilterButton enabledFilters={this.props.map.filters} {...actions}/>
+        </div>}
 
         <Legend
           featureType={this.props.map.filters[0]}
           zoom={this.state.mapZoomLevel}
           hotOverlayEnabled={this.props.map.hotOverlay}
+          showHighlighted={embed === false}
+          theme={theme}
         />
       </div>
     )
   }
 
   componentDidMount() {
+
     if (process.env.NODE_ENV !== 'production') {
       //glStyle.sources['osm-buildings-aggregated'].tiles[0] = glStyle.sources['osm-buildings-aggregated'].tiles[0].replace('52.50.120.37', 'localhost')
       //glStyle.sources['osm-buildings-raw'].tiles[0] = glStyle.sources['osm-buildings-raw'].tiles[0].replace('52.50.120.37', 'localhost')
     }
+    const { theme } = this.props
 
     map = L.map(
       'map', {
@@ -81,11 +90,11 @@ class Map extends Component {
     }
     glLayer = L.mapboxGL({
       updateInterval: 0,
-      style: glStyles(this.props.map.filters),
+      style: glStyles(this.props.map.filters, { theme }),
       hash: false
     })
 
-    const glCompareLayerStyles = getCompareStyles(this.props.map.filters, this.props.map.times)
+    const glCompareLayerStyles = getCompareStyles(this.props.map.filters, this.props.map.times, theme)
     glCompareLayers = {
       before: L.mapboxGL({
         updateInterval: 0,
@@ -127,6 +136,8 @@ class Map extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
+    const { theme } = this.props
+
     // ceck for changed url parameters
     if (nextProps.region !== this.props.region) {
       this.props.actions.setRegionFromUrl(nextProps.region)
@@ -148,19 +159,20 @@ class Map extends Component {
     }
     // check for changed map parameters
     if (nextProps.map.region !== this.props.map.region) {
-      this.mapSetRegion(nextProps.map.region)
+      this.mapSetRegion(nextProps.map.region, nextProps.embed === false, nextProps.embed === false)
     }
     if (nextProps.map.filters.join() !== this.props.map.filters.join()) { // todo: handle this in reducer?
       glLayer.setStyle(glStyles(nextProps.map.filters, {
         timeFilter: nextProps.stats.timeFilter,
-        experienceFilter: nextProps.stats.experienceFilter
+        experienceFilter: nextProps.stats.experienceFilter,
+        theme
       }))
-      let glCompareLayerStyles = getCompareStyles(nextProps.map.filters, nextProps.map.times)
+      let glCompareLayerStyles = getCompareStyles(nextProps.map.filters, nextProps.map.times, theme)
       glCompareLayers.before.setStyle(glCompareLayerStyles.before)
       glCompareLayers.after.setStyle(glCompareLayerStyles.after)
     }
     if (nextProps.map.times !== this.props.map.times) {
-      let glCompareLayerStyles = getCompareStyles(nextProps.map.filters, nextProps.map.times)
+      let glCompareLayerStyles = getCompareStyles(nextProps.map.filters, nextProps.map.times, theme)
       if (nextProps.map.times[0] !== this.props.map.times[0]) {
         glCompareLayers.before.setStyle(glCompareLayerStyles.before)
       }
@@ -219,19 +231,24 @@ class Map extends Component {
     })
   }
 
-  mapSetRegion(region) {
+  mapSetRegion(region, isEditable, fitBoundsWithBottomPadding) {
+    const { swiper: { poly } } = themes[this.props.theme]
+
     if (boundsLayer !== null) {
       map.removeLayer(boundsLayer)
     }
     if (region === null) return
-    boundsLayer = L.polygon(
+    boundsLayer = L[poly.shape](
       [[[-85.0511287798,-1E5],[85.0511287798,-1E5],[85.0511287798,2E5],[-85.0511287798,2E5],[-85.0511287798,-1E5]]]
       .concat(regionToCoords(region, 'leaflet')), {
-      weight: 1,
-      color: 'gray',
+      weight: poly.weight,
+      color: poly.color,
       interactive: false
     }).addTo(map)
-    boundsLayer.enableEdit()
+
+    if (isEditable) {
+      boundsLayer.enableEdit()
+    }
 
     // set map view to region
     try { // geometry calculcation are a bit hairy for invalid geometries (which may happen during polygon editing)
@@ -253,13 +270,15 @@ class Map extends Component {
         L.polygon(boundsLayer.getLatLngs()[1]).getBounds(), // zoom to inner ring!
       {
         paddingTopLeft: [20, 10+52],
-        paddingBottomRight: [20, 10+212]
+        paddingBottomRight: [20, 10+ ((fitBoundsWithBottomPadding) ? 212 : 52)]
       })
     } catch(e) {}
   }
 
   setTimeFilter(timeFilter) {
-    const highlightLayers = glStyles(this.props.map.filters).layers.filter(l => l.id.match(/highlight/))
+    const { theme } = this.props
+
+    const highlightLayers = glStyles(this.props.map.filters, { theme }).layers.filter(l => l.id.match(/highlight/))
     if (timeFilter === null) {
       // reset time filter
       highlightLayers.forEach(highlightLayer => {
@@ -289,7 +308,8 @@ class Map extends Component {
   }
 
   setExperienceFilter(experienceFilter) {
-    const highlightLayers = glStyles(this.props.map.filters).layers.map(l => l.id).filter(id => id.match(/highlight/))
+    const { theme } = this.props
+    const highlightLayers = glStyles(this.props.map.filters, { theme }).layers.map(l => l.id).filter(id => id.match(/highlight/))
     if (experienceFilter === null) {
       // reset time filter
       highlightLayers.forEach(highlightLayer => {

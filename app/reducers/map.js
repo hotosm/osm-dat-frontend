@@ -18,7 +18,8 @@ const initialState = {
   region: null,
   filters: defaults.filters,
   overlay: defaults.overlay,
-  hotOverlay: false
+  hotOverlay: false,
+  theme: 'default'
 }
 
 export default handleActions({
@@ -68,7 +69,6 @@ export default handleActions({
         : []
     })
   },
-
   'set overlay' (state, action) {
     var newState = Object.assign({}, state, {
       overlay: action.payload
@@ -128,6 +128,16 @@ export default handleActions({
     return Object.assign({}, state, {
       hotOverlay: false
     })
+  },
+  'set embed from url' (state, action) {
+    return Object.assign({}, state, {
+      embed: action.payload
+    })
+  },
+  'set theme from url' (state, action) {
+    return Object.assign({}, state, {
+      theme: action.payload
+    })
   }
 }, initialState)
 
@@ -142,13 +152,17 @@ function updateURL(state) {
   const options = state.view === 'compare'
     ? timesPart + '/' + filtersPart
     : filtersPart + '/' + overlayPart
+
+  const embed = state.embed ? '/embed' : ''
+  const theme = state.theme ? '/' + state.theme : ''
+
   if (region !== null) {
     switch (region.type) {
     case 'bbox':
       history.replace('/'+view
         +'/bbox:'
         +region.coords.map(x => x.toFixed(5)).join(',')
-        +'/'+options
+        +'/'+options + embed + theme
       )
     break
     case 'polygon':
@@ -159,14 +173,14 @@ function updateURL(state) {
             region.coords
           )
         )
-        +'/'+options
+        +'/'+options + embed + theme
       )
     break
     case 'hot':
       history.replace('/'+view
         +'/hot:'
         +region.id
-        +'/'+options
+        +'/'+options + embed + theme
       )
     break
     default:
