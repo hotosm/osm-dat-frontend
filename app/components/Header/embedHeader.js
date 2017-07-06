@@ -7,6 +7,7 @@ import * as MapActions from '../../actions/map'
 import { compareTimes as timeOptions } from '../../settings/options'
 import { filters } from '../../settings/options'
 import DropdownButton from '../DropdownButton'
+import style from './embedHeader.css'
 
 class EmbedHeader extends Component {
   onFeatureTypeClick(selectedFilters) {
@@ -37,38 +38,41 @@ class EmbedHeader extends Component {
     const yearsStart = years.slice(0, yearsEndIndex)
     const yearsStartIndex = yearsList.indexOf(yearStart)
     const yearsEnd = years.slice(yearsStartIndex + 1)
-
     return (
-      <div>
-        <span>Before and after.</span>
+      <header className="embedHeader">
+        <div className="left">
+          <span className="title">Before and after.</span>
 
-        <DropdownButton
-          style={{marginRight: '150px'}}
-          options={yearsStart}
-          btnElement={<button title='Select time range'>{yearStart}&ensp;▾</button>}
-          multiple={false}
-          selectedKeys={[yearStart]}
-          onSelectionChange={_.partial(this.onYearChangeClick, false).bind(this)}
-        />
+          <DropdownButton
+            style={{marginRight: '150px'}}
+            options={yearsStart}
+            btnElement={<button title='Select time range'>{yearStart}&ensp;▾</button>}
+            multiple={false}
+            selectedKeys={[yearStart]}
+            onSelectionChange={_.partial(this.onYearChangeClick, false).bind(this)}
+          />
 
-        <DropdownButton
-          options={yearsEnd}
-          btnElement={<button title='Select time range'>{yearEnd}&ensp;▾</button>}
-          multiple={false}
-          selectedKeys={[yearEnd]}
-          onSelectionChange={_.partial(this.onYearChangeClick, true).bind(this)}
-        />
+          <DropdownButton
+            options={yearsEnd}
+            btnElement={<button title='Select time range'>{yearEnd}&ensp;▾</button>}
+            multiple={false}
+            selectedKeys={[yearEnd]}
+            onSelectionChange={_.partial(this.onYearChangeClick, true).bind(this)}
+          />
+        </div>
 
-        {filters.filter(filter => filter.hidden !== true).map(filter => {
-          return <button
-            key={filter.id}
-            className={classnames({ '-selected': this.props.enabledFilters !== undefined && filter.id === this.props.enabledFilters[0] })}
-            onClick={_.partial(this.onFeatureTypeClick, [filter.id]).bind(this)}
-          >
-            {filter.description}
-          </button>
-        })}
-      </div>
+        <div>
+          {filters.filter(filter => filter.hidden !== true).map(filter => {
+            return <button
+              key={filter.id}
+              className={classnames({ '-selected': this.props.enabledFilters !== undefined && filter.id === this.props.enabledFilters[0] })}
+              onClick={_.partial(this.onFeatureTypeClick, [filter.id]).bind(this)}
+            >
+              {filter.description}
+            </button>
+          })}
+        </div>
+      </header>
     )
   }
 }
