@@ -17,7 +17,7 @@ class App extends Component {
 
   render() {
     const { actions, routeParams, route, embed } = this.props
-    const header = (embed) ? <EmbedHeader {...actions}/> : <Header/>;
+    const header = (embed) ? <EmbedHeader {...actions}/> : <Header/>
 
     if (!this.state.hotProjectsLoaded) {
       return (

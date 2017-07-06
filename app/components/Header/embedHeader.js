@@ -7,7 +7,7 @@ import * as MapActions from '../../actions/map'
 import { compareTimes as timeOptions } from '../../settings/options'
 import { filters } from '../../settings/options'
 import DropdownButton from '../DropdownButton'
-import style from './embedHeader.css'
+import './embedHeader.css'
 
 class EmbedHeader extends Component {
   onFeatureTypeClick(selectedFilters) {
