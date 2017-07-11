@@ -50,6 +50,7 @@ class EmbedHeader extends Component {
           <span className="title">Before and after.</span>
 
           <DropdownButton
+            theme={theme}
             style={{marginRight: '150px'}}
             options={yearsStart}
             btnElement={
@@ -63,6 +64,7 @@ class EmbedHeader extends Component {
           />
 
           <DropdownButton
+            theme={theme}
             options={yearsEnd}
             btnElement={
               <button title='Select time range'>

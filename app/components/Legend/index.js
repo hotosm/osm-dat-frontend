@@ -57,7 +57,7 @@ class Legend extends Component {
       )
     }
     return (
-      <ul id="legend">
+      <ul id="legend" style={themes[theme].legend}>
         <li><h3>Map Legend</h3></li>
         {legendEntries}
         <li>Last Data Update: {this.state.lastModified

@@ -25,10 +25,12 @@ const waterways = {
 }
 
 export default {
+  legend: {},
   embedHeader: {
     boxShadow: '0px 0px 20px rgba(0, 0, 0, 0.5)'
   },
   dropDown: {},
+  dropDownList: {},
   dateFrom: {
     after: {
     },

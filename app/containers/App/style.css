@@ -157,3 +157,8 @@ input[type="checkbox"] {
 .leaflet-container a.leaflet-popup-close-button {
   text-align: right;
 }
+.external-link {
+  &:hover {
+    text-decoration: underline;
+  }
+}

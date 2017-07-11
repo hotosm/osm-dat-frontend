@@ -32,7 +32,7 @@ class Map extends Component {
     const containerClassName = (embed === false) ? `${view}View` : '';
     return (
       <div className={containerClassName}>
-        <div id="map">
+        <div id="map" style={embed ? { bottom: 30 } : {}}>
         </div>
         <HotOverlay enabled={this.props.map.hotOverlay} leaflet={map} />
         {this.props.map.view === 'compare'

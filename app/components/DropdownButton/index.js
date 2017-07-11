@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import style from './style.css'
+import themes from '../../settings/themes'
 import Dropdown from 'rc-dropdown'
 import Menu, { Item as MenuItem, Divider } from 'rc-menu'
 
@@ -9,8 +10,10 @@ class DropdownButton extends Component {
   }
 
   render() {
+    const { theme } = this.props
     const menu = (
       <Menu
+        style={theme && themes[theme].dropDownList || {}}
         multiple={this.props.multiple}
         selectedKeys={this.props.selectedKeys}
         onClick={onClick.bind(this)}
