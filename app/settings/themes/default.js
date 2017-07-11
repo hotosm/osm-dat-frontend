@@ -25,6 +25,31 @@ const waterways = {
 }
 
 export default {
+  embedHeader: {
+    boxShadow: '0px 0px 20px rgba(0, 0, 0, 0.5)'
+  },
+  dropDown: {},
+  dateFrom: {
+    after: {
+    },
+    afterContent: ' ▾'
+  },
+  dateTo: {
+    after: {
+    },
+    afterContent: ' ▾'
+  },
+  buttons: {
+    button: {
+      backgroundColor: '#4B5A6A'
+    },
+    hover: {
+      backgroundColor: '#193047',
+    },
+    active: {
+      boxShadow: 'inset 0 5px 30px #36414D',
+    }
+  },
   swiper: {
     backgroundColor: 'rgba(75,90,106, 0.8)',
     borderColor: '#FFFFFF',

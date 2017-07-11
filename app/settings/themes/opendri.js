@@ -27,7 +27,41 @@ const waterways = {
   hightlightFill: blue
 }
 
+const baseButton = {
+  backgroundColor: 'transparent',
+  color: UIBlue
+}
+
 export default {
+  embedHeader: {
+    padding: '10px 0'
+  },
+  dateFrom: {
+    after: {
+      marginLeft: '6px'
+    },
+    afterContent: ' - '
+  },
+  dateTo: {
+    after: {
+    },
+    afterContent: ''
+  },
+  dropDown: {
+    color: UIBlue,
+    textDecoration: 'underline'
+  },
+  buttons: {
+    button: baseButton,
+    hover: {
+      ...baseButton,
+      textDecoration: 'underline',
+    },
+    active: {
+      ...baseButton,
+      textDecoration: 'underline',
+    }
+  },
   swiper: {
     backgroundColor: UIBlue,
     borderColor: UIBlue,

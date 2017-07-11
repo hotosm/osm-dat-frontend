@@ -17,7 +17,8 @@ class App extends Component {
 
   render() {
     const { actions, routeParams, route, embed } = this.props
-    const header = (embed) ? <EmbedHeader {...actions}/> : <Header/>
+    const theme = routeParams.theme || 'default'
+    const header = (embed) ? <EmbedHeader {...actions} {...{theme}}/> : <Header/>
 
     if (!this.state.hotProjectsLoaded) {
       return (
@@ -38,7 +39,7 @@ class App extends Component {
           times={routeParams.times}
           view={route.view}
           embed={embed}
-          theme={routeParams.theme || 'default'}
+          theme={theme}
         />
         {route.view === 'country' ? <Stats mode={routeParams.overlay}/> : ''}
         {route.view === 'compare' && embed === false ? <CompareBar times={routeParams.times}/> : ''}
