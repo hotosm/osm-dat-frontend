@@ -29,7 +29,8 @@ const waterways = {
 
 const baseButton = {
   backgroundColor: 'transparent',
-  color: UIBlue
+  color: UIBlue,
+  boxShadow: 'none'
 }
 
 export default {
@@ -44,7 +45,8 @@ export default {
     bottom: '50px'
   },
   embedHeader: {
-    padding: '10px 0'
+    padding: '10px 0',
+    boxShadow: 'none'
   },
   dateFrom: {
     after: {
@@ -75,7 +77,7 @@ export default {
     },
     active: {
       ...baseButton,
-      textDecoration: 'underline',
+      textDecoration: 'underline'
     }
   },
   swiper: {
