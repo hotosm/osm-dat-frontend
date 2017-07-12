@@ -113,11 +113,18 @@ button {
   line-height: 19px;
   height: 35px;
   color: white;
+  background-color: #4B5A6A;
   border-radius: 4px;
   cursor: pointer;
 
   &.disabled {
     opacity: 0.4;
+  }
+  &:not(.disabled):hover {
+    background-color: #36414D;
+  }
+  &:active {
+    box-shadow: inset 0 5px 30px #193047;
   }
 }
 
