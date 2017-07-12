@@ -1,3 +1,4 @@
+
 import React, { Component } from 'react'
 import classnames from 'classnames'
 import _ from 'lodash'
@@ -7,6 +8,9 @@ import * as MapActions from '../../actions/map'
 import { compareTimes as timeOptions } from '../../settings/options'
 import { filters } from '../../settings/options'
 import DropdownButton from '../DropdownButton'
+import Button from './button'
+import themes from '../../settings/themes'
+import './embedHeader.css'
 
 class EmbedHeader extends Component {
   onFeatureTypeClick(selectedFilters) {
@@ -23,6 +27,7 @@ class EmbedHeader extends Component {
   }
 
   render() {
+    const { theme } = this.props
     const years = timeOptions.map(timeOption => ({
       id: timeOption.id,
       description: timeOption.id
@@ -37,38 +42,56 @@ class EmbedHeader extends Component {
     const yearsStart = years.slice(0, yearsEndIndex)
     const yearsStartIndex = yearsList.indexOf(yearStart)
     const yearsEnd = years.slice(yearsStartIndex + 1)
+    const styles = themes[theme]
 
     return (
-      <div>
-        <span>Before and after.</span>
+      <header className="embedHeader" style={styles.embedHeader}>
+        <div className="left">
+          <span className="title">Before and after.</span>
 
-        <DropdownButton
-          style={{marginRight: '150px'}}
-          options={yearsStart}
-          btnElement={<button title='Select time range'>{yearStart}&ensp;▾</button>}
-          multiple={false}
-          selectedKeys={[yearStart]}
-          onSelectionChange={_.partial(this.onYearChangeClick, false).bind(this)}
-        />
+          <DropdownButton
+            theme={theme}
+            style={{marginRight: '150px'}}
+            options={yearsStart}
+            btnElement={
+              <button title='Select time range'>
+                <span style={styles.dropDown}>{yearStart}</span><span style={styles.dateFrom.after}>{styles.dateFrom.afterContent}</span>
+              </button>
+            }
+            multiple={false}
+            selectedKeys={[yearStart]}
+            onSelectionChange={_.partial(this.onYearChangeClick, false).bind(this)}
+          />
 
-        <DropdownButton
-          options={yearsEnd}
-          btnElement={<button title='Select time range'>{yearEnd}&ensp;▾</button>}
-          multiple={false}
-          selectedKeys={[yearEnd]}
-          onSelectionChange={_.partial(this.onYearChangeClick, true).bind(this)}
-        />
+          <DropdownButton
+            theme={theme}
+            options={yearsEnd}
+            btnElement={
+              <button title='Select time range'>
+                <span style={styles.dropDown}>{yearEnd}</span><span style={styles.dateFrom.after}>{styles.dateTo.afterContent}</span>
+              </button>
+            }
+            multiple={false}
+            selectedKeys={[yearEnd]}
+            onSelectionChange={_.partial(this.onYearChangeClick, true).bind(this)}
+          />
+        </div>
 
-        {filters.filter(filter => filter.hidden !== true).map(filter => {
-          return <button
-            key={filter.id}
-            className={classnames({ '-selected': this.props.enabledFilters !== undefined && filter.id === this.props.enabledFilters[0] })}
-            onClick={_.partial(this.onFeatureTypeClick, [filter.id]).bind(this)}
-          >
-            {filter.description}
-          </button>
-        })}
-      </div>
+        <div>
+          {filters.filter(filter => filter.hidden !== true).map(filter => {
+            const active = this.props.enabledFilters !== undefined && filter.id === this.props.enabledFilters[0]
+            return <Button
+              theme={theme}
+              active={active}
+              key={filter.id}
+              className={classnames({ '-selected': active })}
+              onClick={_.partial(this.onFeatureTypeClick, [filter.id]).bind(this)}
+            >
+              {filter.description}
+            </Button>
+          })}
+        </div>
+      </header>
     )
   }
 }

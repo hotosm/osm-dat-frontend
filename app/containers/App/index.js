@@ -8,6 +8,7 @@ import Map from '../../components/Map'
 import Stats from '../../components/Stats'
 import CompareBar from '../../components/CompareBar'
 import { load as loadHotProjects } from '../../data/hotprojects.js'
+import themes from '../../settings/themes'
 import style from './style.css'
 
 class App extends Component {
@@ -17,7 +18,8 @@ class App extends Component {
 
   render() {
     const { actions, routeParams, route, embed } = this.props
-    const header = (embed) ? <EmbedHeader {...actions}/> : <Header/>;
+    const theme = routeParams.theme || 'default'
+    const header = (embed) ? <EmbedHeader {...actions} theme={theme}/> : <Header/>
 
     if (!this.state.hotProjectsLoaded) {
       return (
@@ -38,10 +40,11 @@ class App extends Component {
           times={routeParams.times}
           view={route.view}
           embed={embed}
-          theme={routeParams.theme || 'default'}
+          theme={theme}
         />
         {route.view === 'country' ? <Stats mode={routeParams.overlay}/> : ''}
         {route.view === 'compare' && embed === false ? <CompareBar times={routeParams.times}/> : ''}
+        { embed ? <a className="external-link" target='_blank' rel='noreferrer noopener' style={themes[theme].externalLink} href='http://osm-analytics.org/'>View on osm-analytics.org</a> : '' }
       </div>
     )
   }

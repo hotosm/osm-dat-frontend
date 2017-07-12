@@ -27,7 +27,57 @@ const waterways = {
   hightlightFill: blue
 }
 
+const baseButton = {
+  backgroundColor: 'transparent',
+  color: UIBlue
+}
+
 export default {
+  externalLink: {
+    position: 'absolute',
+    bottom: '5px',
+    right: '0',
+    color: UIBlue,
+    fontSize: '0.8rem'
+  },
+  legend: {
+    bottom: '50px'
+  },
+  embedHeader: {
+    padding: '10px 0'
+  },
+  dateFrom: {
+    after: {
+      marginLeft: '6px'
+    },
+    afterContent: ' - '
+  },
+  dateTo: {
+    after: {
+    },
+    afterContent: ''
+  },
+  dropDown: {
+    color: UIBlue,
+    textDecoration: 'underline'
+  },
+  dropDownList: {
+    boxShadow: 'initial',
+    borderRadius: 'initial',
+    top: '-10px',
+    border: '1px solid #BEC9D5'
+  },
+  buttons: {
+    button: baseButton,
+    hover: {
+      ...baseButton,
+      textDecoration: 'underline',
+    },
+    active: {
+      ...baseButton,
+      textDecoration: 'underline',
+    }
+  },
   swiper: {
     backgroundColor: UIBlue,
     borderColor: UIBlue,
