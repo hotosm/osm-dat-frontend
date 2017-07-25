@@ -1,3 +1,4 @@
+/* eslint-disable */
 L.MapboxGL = L.Layer.extend({
     options: {
       updateInterval: 32
@@ -184,6 +185,9 @@ L.MapboxGL = L.Layer.extend({
       // update the map on the next available frame to avoid stuttering
       L.Util.requestAnimFrame(function () {
         // reset the scale and offset
+        if (!this._glMap) {
+          return;
+        }
         L.DomUtil.setTransform(this._glMap._canvas.canvas, offset, 1);
 
         // enable panning once the gl map is ready again

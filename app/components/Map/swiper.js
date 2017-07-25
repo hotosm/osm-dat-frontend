@@ -2,9 +2,10 @@ import React, { Component } from 'react'
 
 class Swiper extends Component {
   render() {
+    const { swiper } = this.props.theme
     return (
       <div className="compare" style={this.state.style}>
-        <div className="swiper" onMouseDown={::this._onDown} onTouchStart={::this._onDown}></div>
+        <div style={swiper} className="swiper" onMouseDown={::this._onDown} onTouchStart={::this._onDown}></div>
       </div>
     )
   }

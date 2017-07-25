@@ -1,3 +1,5 @@
+/* eslint quotes: "off" */
+
 import buildings from './buildings.json'
 import highways from './highways.json'
 import waterways from './waterways.json'
@@ -5,18 +7,36 @@ import pois from './pois.json'
 
 import settings from '../../../settings/settings'
 import { filters as filterOptions } from '../../../settings/options'
+import themes from '../../../settings/themes'
+
+const applyTheme = (themeName, style) => {
+  return !themes[themeName]
+    ? style
+    : Object.assign(style, {
+      layers: style.layers.map(layer =>
+        Object.assign(layer, {
+          paint: (themes[themeName][style.name]
+            .filter(th => th.id === layer.id)[0] || layer)
+            .paint
+        })
+      )
+    })
+}
 
 export default function getStyle(filters, options) {
   if (!options) options = {}
+  const currentTheme = options.theme || 'default'
   const timeFilter = options.timeFilter
   const experienceFilter = options.experienceFilter
   const server = options.source || settings['vt-source']
+
   const filterStyles = {
-    buildings,
-    highways,
-    waterways,
-    pois
+    buildings: applyTheme(currentTheme, buildings),
+    highways: applyTheme(currentTheme, highways),
+    waterways: applyTheme(currentTheme, waterways),
+    pois: applyTheme(currentTheme, pois),
   }
+
   var allSources = {}
   filterOptions.forEach(filterOption => {
     let style = filterOption.id
@@ -26,6 +46,7 @@ export default function getStyle(filters, options) {
       allSources[source].tiles[0] = allSources[source].tiles[0].replace('{{server}}', server)
     })
   })
+
   return {
     "version": 8,
     "sources": allSources,
@@ -47,6 +68,7 @@ export default function getStyle(filters, options) {
             ["<=", "_userExperience", experienceFilter[1]]
           ]
         }
+
         return layer
       }))
       .reduce((prev, filterSources) => prev.concat(filterSources), [])
@@ -62,12 +84,12 @@ export default function getStyle(filters, options) {
   waterways
 }
 
-export function getCompareStyles(filters, compareTimes) {
+export function getCompareStyles(filters, compareTimes, theme) {
   const beforeSource = (compareTimes[0] === 'now') ? settings['vt-source'] : settings['vt-hist-source']+'/'+compareTimes[0]
   const afterSource = (compareTimes[1] === 'now') ? settings['vt-source'] : settings['vt-hist-source']+'/'+compareTimes[1]
   var glCompareLayerStyles = {
-    before: JSON.parse(JSON.stringify(getStyle(filters, { source: beforeSource }))),
-    after: JSON.parse(JSON.stringify(getStyle(filters, { source: afterSource })))
+    before: JSON.parse(JSON.stringify(getStyle(filters, { source: beforeSource, theme }))),
+    after: JSON.parse(JSON.stringify(getStyle(filters, { source: afterSource, theme })))
   }
   // don't need highlight layers
   glCompareLayerStyles.before.layers = glCompareLayerStyles.before.layers.filter(layer => !layer.source.match(/highlight/))
