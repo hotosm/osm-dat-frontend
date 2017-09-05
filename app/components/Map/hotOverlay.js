@@ -19,7 +19,7 @@ class HotOverlay extends Component {
           "hotprojects": {
             "type": "vector",
             "tiles": [
-              "https://s3.amazonaws.com/tm-projects-vt/tiles/{z}/{x}/{y}.pbf"
+              "https://s3.amazonaws.com/osma/tiles/{z}/{x}/{y}.pbf"
             ],
             "minzoom": 1,
             "maxzoom": 9

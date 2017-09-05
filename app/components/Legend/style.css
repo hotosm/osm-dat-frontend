@@ -31,8 +31,6 @@
       margin-right: 4px;
 
       &.buildings {
-        background-color: #FDB863;
-        border-color: #E08214;
 
         &.feature {
           border-style: solid;
@@ -51,9 +49,6 @@
       }
 
       &.highways {
-        background-color: #9e9ac8;
-        border-color: #9e9ac8;
-
         &.feature {
           background-color: transparent;
           border-style: solid;
@@ -74,9 +69,6 @@
       }
 
       &.waterways {
-        background-color: #c89ab7;
-        border-color: #c89ab7;
-
         &.feature {
           background-color: transparent;
           border-style: solid;
@@ -97,8 +89,6 @@
       }
 
       &.pois {
-        background-color: #FF0000;
-
         &.feature {
           border-radius: 4px;
         }
@@ -111,11 +101,6 @@
         &.low {
           opacity: 0.1;
         }
-      }
-
-      &.highlight {
-        background-color: #5CBAD8;
-        border-color: #5CBAD8;
       }
 
       &.hot-projects {

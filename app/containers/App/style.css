@@ -133,12 +133,6 @@ input[type="checkbox"] {
   outline: none;
 }
 
-.main {
-  header {
-    box-shadow: 0px 0px 20px rgba(#000, 0.5);
-  }
-}
-
 .updating {
   & > * {
     opacity: 0.5;
@@ -169,4 +163,12 @@ input[type="checkbox"] {
 }
 .leaflet-container a.leaflet-popup-close-button {
   text-align: right;
+}
+.external-link {
+  &:hover {
+    text-decoration: underline;
+  }
+}
+.main header {
+  box-shadow: 0px 0px 20px rgba(0,0,0, 0.5);
 }

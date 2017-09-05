@@ -38,7 +38,7 @@ function fetch(region, filter, time /*optional*/, callback) {
 }
 
 function getRegionZoom(region) {
-  const maxZoom = 14 // todo: setting "maxZoom"
+  const maxZoom = 13 // todo: setting "maxZoom"
   const tileLimit = 12 // todo: setting "tileLimit"
   const regionBounds = extent(region)
   for (let z=maxZoom; z>0; z--) {
@@ -84,13 +84,7 @@ function getAndCacheTile(tile, filter, time, callback) {
     data.features = data.features.map(feature => {
       var centr = centroid(feature)
       centr.properties = feature.properties
-      if (feature.geometry.type === 'Point') {
-        centr.properties._length = 0.0
-      } else if (feature.geometry.type === 'LineString') {
-        centr.properties._length = centr.properties._lineDistance || lineDistance(feature, 'kilometers')
-      } else {
-        // todo: multilinestrings ???, (multi)polygons?
-      }
+      centr.properties._length = centr.properties._length || centr.properties._lineDistance || lineDistance(feature, 'kilometers')
       return centr
     })
     cache[cachePage][tile.hash] = data
@@ -129,6 +123,8 @@ function getArrayBuffer(url, callback) {
   // todo: global?
   request.parse['application/x-protobuf'] = obj => obj
   request.parse['application/octet-stream'] = obj => obj
+
+  /* eslint-disable indent */
   request.get(url)
   .on('request', function () {
     // todo: needed?
@@ -145,6 +141,7 @@ function getArrayBuffer(url, callback) {
       callback(err || new Error(res.status))
     }
   });
+  /* eslint-enable indent */
 };
 
 export default fetch

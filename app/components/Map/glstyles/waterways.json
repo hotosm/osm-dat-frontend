@@ -1,5 +1,6 @@
 {
   "version": 8,
+  "name": "waterways",
   "sources": {
     "osm-waterways-raw": {
       "type": "vector",
@@ -7,7 +8,7 @@
         "{{server}}/waterways/{z}/{x}/{y}.pbf"
       ],
       "minzoom": 13,
-      "maxzoom": 14
+      "maxzoom": 13
     },
     "osm-waterways-aggregated": {
       "type": "vector",

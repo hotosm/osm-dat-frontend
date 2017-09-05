@@ -14,8 +14,9 @@ export function load(callback) {
   if (hotprojects !== null) {
     return callback(null)
   }
+
   request
-  .get('https://s3.amazonaws.com/tm-projects-vt/hotprojects.geojson')
+  .get('https://s3.amazonaws.com/osma/hotprojects.geojson')
   .end(function(err, res) {
     if (err) return callback(err)
     hotprojects = res.body

@@ -1,3 +1,4 @@
+/* eslint-disable */
 'use strict';
 (function (factory, window) {
     /*globals define, module, require*/

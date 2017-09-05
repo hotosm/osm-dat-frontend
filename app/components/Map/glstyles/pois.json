@@ -1,5 +1,6 @@
 {
   "version": 8,
+  "name": "pois",
   "sources": {
     "osm-pois-raw": {
       "type": "vector",
@@ -7,7 +8,7 @@
         "{{server}}/pois/{z}/{x}/{y}.pbf"
       ],
       "minzoom": 13,
-      "maxzoom": 14
+      "maxzoom": 13
     },
     "osm-pois-aggregated": {
       "type": "vector",

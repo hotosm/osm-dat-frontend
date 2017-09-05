@@ -72,24 +72,21 @@ class SearchBox extends Component {
     setState({ loading: true })
     var setRegion = this.props.setRegion
     request
-    .get('https://nominatim.openstreetmap.org/search')
+    .get('http://osm-analytics.vizzuality.com/api/v1/gazeteer/search')
     .query({
-      format: 'json',
       q: where
     })
     .use(superagentPromisePlugin)
     .then(function(res) {
       var hits = res.body.filter(r => r.osm_type !== 'node')
       if (hits.length === 0) throw new Error('nothing found for place name '+where)
+
       return request
-      .get('https://overpass-api.de/api/interpreter')
-      .query({
-        data: '[out:json][timeout:3];'+hits[0].osm_type+'('+hits[0].osm_id+');out geom;'
-      })
+      .get(`http://osm-analytics.vizzuality.com/api/v1/gazeteer/${hits[0].osm_type}/${hits[0].osm_id}`)
       .use(superagentPromisePlugin)
     })
     .then(function(res) {
-      var osmFeature = osmtogeojson(res.body).features[0]
+      var osmFeature = osmtogeojson(JSON.parse(res.text)).features[0]
       if (!(osmFeature.geometry.type === 'Polygon' || osmFeature.geometry.type === 'MultiPolygon')) throw new Error('invalid geometry')
       var coords = osmFeature.geometry.coordinates
       if (osmFeature.geometry.type === 'MultiPolygon') {
@@ -102,7 +99,7 @@ class SearchBox extends Component {
           let simplifiedFeature = simplify(polygon([coords]), simpl)
           if (simplifiedFeature.geometry.coordinates[0].length <= maxNodeCount) {
             coords = simplifiedFeature.geometry.coordinates[0]
-            break;
+            break
           }
         }
       }
