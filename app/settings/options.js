@@ -44,5 +44,7 @@ export const compareTimes = [
   { id: '2014', timestamp: new Date('2014-01-01'), except: ['pois', 'waterways'] },
   { id: '2015', timestamp: new Date('2015-01-01'), except: ['pois'] },
   { id: '2016', timestamp: new Date('2016-01-01'), except: ['pois'] },
+  { id: '2017', timestamp: new Date('2017-01-01'), except: ['pois'] },
+  { id: '2018', timestamp: new Date('2018-01-01'), except: ['pois'] },
   { id: 'now',  timestamp: new Date() }
 ]
