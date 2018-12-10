@@ -18,45 +18,10 @@ Features
 * compare map at different points in time
 * data updated daily
 
-Technical Overview
-------------------
+Technical Overview & Limitations
+--------------------------------
 
-This is the OSM-Analytics user interface. See also the corresponding [backend](https://github.com/hotosm/osm-analytics-cruncher/) code.
-
-The backend takes data from [osm-qa-tiles](http://osmlab.github.io/osm-qa-tiles/) and generates sets of vector tiles that contain only a specific set of features (e.g. builings). The vector tiles contain raw individual feature geometries at high zoom levels and an aggregated view at low zoom levels where features are aggregated into square bins.
-
-The data from these vector tiles is used to display the features on the map and to generate the statistics (graphs, number of features, contributors, etc.) by intersecting the feature geometries with the user supplied area of interest using [turf](http://turfjs.org/).
-
-Data Sampling
--------------
-
-The aggregated bins contained in the lower zoom level vector tiles contain the absolute number (or total length for linear obejcts) of features in the respective cell which is used to display a basic *heatmap* style map. In addition to that, each cell contains a set of samples of the properties of the individual features that went into the respective cell (i.e. timestamp samples, user experience samples). This is necessary in order to limit the number of features to transfer to the browser.
-
-These data samples represent the statistical distribution of the constituent data in each cell and allow one to reconstruct the distribution of the data in an arbitrary region. They also allow one to extrapolate the number of features that fall into an given property interval (e.g. a date range).
-
-User Experience
----------------
-
-Each feature is assigned a *user experience value* that estimates the contributor's experience in mapping the respective type of feature by looking at the total number (or length) of features that have currently been last edited by this user. For example, a user that has contributed many buildings but hardly any roads gets assigned a large score for buildings but a low one for buildings.
-
-In the UI, this data is then displayed on a logarithmic scale histogram, displaying how many features have been added by users of different experience levels (beginners, intermediate users, experts).
-
-Limitations
------------
-
-### OSM History
-
-All data in this tool is based only derived from current OSM planet data (it doesn't incorporate the full history data), which means that deleted features as well as modifications of features are not incorporated in the analysis. This introduces an incalculable systematic error into any of the generated statistics (except totals such as the number of buildings in a region). This means that when interpreting the graphs and statistics one has to keep in mind that the data only represents the *latest modification* status of each object.
-
-This issue could be fixed completely by taking the full history OSM planet data into account (which is [non-trivial](http://www.mdpi.com/2220-9964/5/3/37), unfortunately).
-
-### Binning
-
-The data binning at low zoom levels and it's inherent data sampling (see above) introduces both a geometric coarsening (a grid cell is either included as a whole in the selected region or not at all) and a statistical approximation of all generated values. The statistical error depends on the number of features in the affected region and time/experience interval, but for typical scenarios the relative error of totals should be below 1%.
-
-### Multipolygons
-
-The input data from [osm-qa-tiles](http://osmlab.github.io/osm-qa-tiles/) currently doesn't support multipolygon relations, which means that for example buildings that are mapped as a multipolygon relation are missing in the analysis and map view.
+See [documentation/architecture.md](documentation/architecture.md) for background information.
 
 Installation and Usage
 ----------------------
