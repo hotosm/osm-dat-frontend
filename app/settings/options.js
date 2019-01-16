@@ -46,5 +46,6 @@ export const compareTimes = [
   { id: '2016', timestamp: new Date('2016-01-01'), layers: ['buildings', 'highways', 'waterways', 'amenities'] },
   { id: '2017', timestamp: new Date('2017-01-01'), layers: ['buildings', 'highways', 'waterways', 'amenities'] },
   { id: '2018', timestamp: new Date('2018-01-01'), layers: ['buildings', 'highways', 'waterways', 'amenities'] },
+  { id: '2019', timestamp: new Date('2018-12-13'), layers: ['buildings', 'highways', 'waterways', 'amenities'] },
   { id: 'now',  timestamp: new Date() }
 ]
