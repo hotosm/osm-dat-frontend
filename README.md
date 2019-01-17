@@ -46,6 +46,8 @@ Generate static build:
 $ npm run build
 ```
 
+The [`deploy.sh`](https://github.com/hotosm/osm-analytics/blob/master/deploy.sh) script can be useful to publish updates on github-pages.
+
 Embedding
 ---------
 
