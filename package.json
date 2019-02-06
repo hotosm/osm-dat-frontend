@@ -43,6 +43,7 @@
     "postcss-loader": "^0.8.1",
     "postcss-nested": "^1.0.0",
     "precss": "^1.4.0",
+    "promise-polyfill": "8.1.0",
     "rc-dropdown": "^1.4.7",
     "rc-menu": "^4.10.8",
     "react": "^0.14.8",
