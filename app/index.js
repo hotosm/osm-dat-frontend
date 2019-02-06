@@ -1,3 +1,4 @@
+import polyfill from './polyfill'
 import { Router, Route, IndexRoute, useRouterHistory } from 'react-router'
 import { createHashHistory } from 'history'
 import { syncHistoryWithStore } from 'react-router-redux'
