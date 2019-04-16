@@ -23,7 +23,7 @@ import * as _leafletmapboxgljs from '../../libs/leaflet-mapbox-gl.js'
 import * as _leafleteditable from '../../libs/Leaflet.Editable.js'
 
 var map // Leaflet map object
-var backgroundLayer
+var backgroundLayers
 var gapsLayer
 var glLayer // mapbox-gl layer
 var boundsLayer = null // selected region layer
@@ -33,26 +33,31 @@ var backgrounds = [
   {
     id: 'default',
     description: 'plain base map',
+    attribution: settings['map-attribution'],
     url: settings['map-background-tile-layer']
   },
   {
     id: 'mapbox-satellite',
     description: 'satellite imagery (mapbox)',
+    attribution: '© <a href="https://www.mapbox.com/map-feedback/">Mapbox</a>',
     url: 'https://api.mapbox.com/v4/mapbox.satellite/{z}/{x}/{y}.png?access_token=pk.eyJ1IjoiaG90IiwiYSI6ImNpbmx4bWN6ajAwYTd3OW0ycjh3bTZvc3QifQ.KtikS4sFO95Jm8nyiOR4gQ'
   },
   {
     id: 'esri-satellite',
     description: 'satellite imagery (esri)',
+    attribution: '© <a href="https://esri.com">ESRI</a>',
     url: 'https://server.arcgisonline.com/arcgis/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}'
   },
   {
     id: 'osm',
     description: 'openstreetmap.org',
+    attribution: '© <a href="http://www.openstreetmap.org/copyright">OpenStreetMap contributors</a>',
     url: 'https://tile.openstreetmap.org/{z}/{x}/{y}.png'
   },
   {
     id: 'worldpop',
     description: 'worldpop.org.uk',
+    attribution: '© <a href="https://worldpop.org.uk">worldpop.org.uk</a>',
     url: 'http://maps.worldpop.org.uk/tilesets/wp-global-100m-ppp-2010-adj/{z}/{x}/{y}.png'
   }
 ]
@@ -63,7 +68,8 @@ class GapsMap extends Component {
   state = {}
 
   changeBackground(newLayer) {
-    backgroundLayer.setUrl(backgrounds.find(bg => bg.id === newLayer[0]).url)
+    backgroundLayers.forEach(layer => layer.removeFrom(map))
+    backgroundLayers.find(layer => layer.options.id === newLayer[0]).addTo(map)
   }
 
   render() {
@@ -125,12 +131,18 @@ class GapsMap extends Component {
     L.control.scale({ position: 'bottomright' }).addTo(map)
     map.zoomControl.setPosition('bottomright')
 
-    backgroundLayer = L.tileLayer(settings['map-background-tile-layer'], {
-      attribution: settings['map-attribution'],
-      zIndex: -1
-    }).addTo(map)
+    gapsLayer = (new GapsLayer({
+      tileSize: 512,
+      maxNativeZoom: 13,
+      attribution: '© <a href="http://www.openstreetmap.org/copyright">OpenStreetMap contributors</a>'
+    })).addTo(map);
 
-    gapsLayer = (new GapsLayer({tileSize: 512, maxNativeZoom: 13})).addTo(map);
+    backgroundLayers = backgrounds.map(background => L.tileLayer(background.url, {
+      id: background.id,
+      attribution: 'background ' + background.attribution,
+      zIndex: -1
+    }))
+    backgroundLayers[0].addTo(map)
 
     // init from route params
     if (this.props.region) {
