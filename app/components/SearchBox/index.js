@@ -33,7 +33,7 @@ class SearchBox extends Component {
   }
   getSuggestions(input, callback) {
     request
-    .get('https://tasks.hotosm.org/api/v1/project/search')
+    .get('https://tasks.hotosm.org/api/v2/projects/')
     .query({
       textSearch: input
     })
