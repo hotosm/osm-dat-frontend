@@ -29,8 +29,8 @@ class HotProjectsModal extends Component {
           <li key={p.properties.projectId}>
             <a className="link" href={"http://tasks.hotosm.org/project/"+p.properties.projectId}>#{
               p.properties.projectId
-            } <span title={propertiesLoaded(p) ? this.projectProperties[p.properties.projectId].shortDescription : 'loading project information'}>{
-              propertiesLoaded(p) ? this.projectProperties[p.properties.projectId].name + ' (' + this.projectProperties[p.properties.projectId].created.substr(0, 10) + ')' : '…'
+            } <span title={propertiesLoaded(p) ? this.projectProperties[p.properties.projectId].projectInfo.shortDescription : 'loading project information'}>{
+              propertiesLoaded(p) ? this.projectProperties[p.properties.projectId].projectInfo.name + ' (' + this.projectProperties[p.properties.projectId].created.substr(0, 10) + ')' : '…'
             }</span></a>
           </li>
         )}
