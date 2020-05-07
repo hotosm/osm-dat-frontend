@@ -17,7 +17,7 @@ export function load(callback) {
   }
 
   request
-  .get(settings['tm-api'] + '/project/search')
+  .get(settings['tm-api'] + '/projects/')
   .end(function(err, res) {
     if (err) return callback(err)
     hotprojects = res.body.mapResults

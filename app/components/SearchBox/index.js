@@ -4,6 +4,7 @@ import superagentPromisePlugin from 'superagent-promise-plugin'
 import { simplify, polygon } from 'turf'
 import Autosuggest from 'react-autosuggest'
 import style from './style.css'
+import settings from '../../settings/settings'
 
 class SearchBox extends Component {
   state = {
@@ -33,7 +34,7 @@ class SearchBox extends Component {
   }
   getSuggestions(input, callback) {
     request
-    .get('https://tasks.hotosm.org/api/v1/project/search')
+    .get(settings['tm-api'] + '/projects/')
     .query({
       textSearch: input
     })

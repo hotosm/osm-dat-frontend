@@ -6,5 +6,5 @@ export default {
   'vt-hist-source': 'https://tiles.osm-analytics.heigit.org', // source of historic vector tiles for compare feature
   'map-background-tile-layer': 'https://api.mapbox.com/v4/mapbox.light/{z}/{x}/{y}.png?access_token=' + mapbox_token,
   'map-attribution': '© <a href="https://www.mapbox.com/map-feedback/">Mapbox</a> © <a href="http://www.openstreetmap.org/copyright">OpenStreetMap contributors</a>',
-  'tm-api': 'https://tasks.hotosm.org/api/v1', // hot tasking manager api
+  'tm-api': 'https://tasking-manager-tm4-production-api.hotosm.org/api/v2', // hot tasking manager api
 }

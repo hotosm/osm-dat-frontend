@@ -49,7 +49,7 @@ export default function regionToCoords(region, latLngOrder) {
   case 'hot':
     let projectId = region.id
     coords = request
-    .get(settings['tm-api'] + '/project/'+projectId+'/aoi')
+    .get(settings['tm-api'] + '/projects/'+projectId+'/queries/aoi/')
     .use(superagentPromisePlugin)
     .then(function(res) {
       let geometry = res.body

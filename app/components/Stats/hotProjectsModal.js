@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import Modal from 'react-modal'
 import * as request from 'superagent'
 import { queue } from 'd3-queue'
+import settings from '../../settings/settings'
 
 const initialHowMany = 10
 
@@ -28,8 +29,8 @@ class HotProjectsModal extends Component {
           <li key={p.properties.projectId}>
             <a className="link" href={"http://tasks.hotosm.org/project/"+p.properties.projectId}>#{
               p.properties.projectId
-            } <span title={propertiesLoaded(p) ? this.projectProperties[p.properties.projectId].shortDescription : 'loading project information'}>{
-              propertiesLoaded(p) ? this.projectProperties[p.properties.projectId].name + ' (' + this.projectProperties[p.properties.projectId].created.substr(0, 10) + ')' : '…'
+            } <span title={propertiesLoaded(p) ? this.projectProperties[p.properties.projectId].projectInfo.shortDescription : 'loading project information'}>{
+              propertiesLoaded(p) ? this.projectProperties[p.properties.projectId].projectInfo.name + ' (' + this.projectProperties[p.properties.projectId].created.substr(0, 10) + ')' : '…'
             }</span></a>
           </li>
         )}
@@ -60,7 +61,7 @@ class HotProjectsModal extends Component {
     var projectIdsToRequest = projectIds.filter(projectId => !this.projectProperties[projectId])
 
     projectIdsToRequest.forEach(projectId => {
-      let req = request.get('https://tasks.hotosm.org/api/v1/project/'+projectId+'/summary')
+      let req = request.get(settings['tm-api'] + '/projects/'+projectId+'/queries/summary/')
       q.defer(req.end.bind(req))
     })
     q.awaitAll(function(err, data) {
