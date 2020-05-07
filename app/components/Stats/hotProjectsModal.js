@@ -61,7 +61,7 @@ class HotProjectsModal extends Component {
     var projectIdsToRequest = projectIds.filter(projectId => !this.projectProperties[projectId])
 
     projectIdsToRequest.forEach(projectId => {
-      let req = request.get(settings['tm-api'] + '/project/'+projectId+'/summary')
+      let req = request.get(settings['tm-api'] + '/projects/'+projectId+'/queries/summary/')
       q.defer(req.end.bind(req))
     })
     q.awaitAll(function(err, data) {
