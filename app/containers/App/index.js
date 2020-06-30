@@ -90,7 +90,7 @@ class App extends Component {
     this.props.actions.setThemeFromUrl(this.props.routeParams.theme)
     loadHotProjects((err) => {
       if (err) {
-        return console.error('unable to load hot projects data: ', err)
+        console.error('unable to load hot projects data: ', err)
       }
       this.setState({ hotProjectsLoaded: true })
     })
