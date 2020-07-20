@@ -1,4 +1,4 @@
-import { area, extent, intersect, bboxPolygon, featurecollection, centroid, lineDistance, within } from 'turf'
+import { area, bbox as extent, intersect, bboxPolygon, featureCollection as featurecollection, centroid, lineDistance, within } from 'turf'
 import Sphericalmercator from 'sphericalmercator'
 import { queue } from 'd3-queue'
 import loadTile from '../Map/loadVectorTile.js'

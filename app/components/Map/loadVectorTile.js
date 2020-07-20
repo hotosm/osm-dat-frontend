@@ -1,7 +1,7 @@
 import * as request from 'superagent'
 import vt from 'vector-tile'
 import Protobuf from 'pbf'
-import { featurecollection } from 'turf'
+import { featureCollection as featurecollection } from 'turf'
 
 // based on https://github.com/mapbox/mapbox-gl-js/blob/master/js/source/worker.js
 
