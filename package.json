@@ -64,7 +64,7 @@
     "superagent-promise-plugin": "^3.1.0",
     "turf": "^3.0.14",
     "vector-tile": "^1.2.0",
-    "vega": "^2.5.2",
+    "vega": "^5.17.3",
     "webpack": "^1.12.14",
     "webpack-hot-middleware": "^2.7.1",
     "xml-parse": "^0.3.0"
